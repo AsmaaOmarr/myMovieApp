@@ -16,7 +16,7 @@ const About = () => {
 
         <div className="row mt-5 ">
           {/* Left Section */}
-          <div className="col-md-6">
+          <div className="col-md-6 p-5">
             <h2 className="fw-bold mb-4">🎯 Our Mission</h2>
             <p>
               Our mission is to revolutionize the way movie lovers experience
