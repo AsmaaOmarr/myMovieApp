@@ -8,7 +8,7 @@ const Navbar = () => {
       <nav
         className="navbar navbar-expand-lg py-3 px-5"
         style={{
-          backgroundColor: "transparent",
+          backgroundColor: "transparent ",
         }}
       >
         <div className="container-fluid">
@@ -26,7 +26,10 @@ const Navbar = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon" />
+            <span
+              className="navbar-toggler-icon"
+              style={{ filter: "invert(100%)" }}
+            />
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
