@@ -20,6 +20,10 @@ function App() {
           element: <Home />,
         },
         {
+          path: "/myMovieApp",
+          element: <Home />,
+        },
+        {
           path: "/movieDetails/:id",
           element: <MovieDetails />,
         },
