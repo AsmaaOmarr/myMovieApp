@@ -1,0 +1,61 @@
+@keyframes cardAnimation {
+  0% {
+    rotate: -1deg;
+  }
+
+  100% {
+    rotate: 1deg;
+  }
+}
+.card:hover {
+  background-color: transparent !important;
+  color: white !important;
+  transform: scale(1.05);
+  transition: all 0.5s;
+  animation-name: cardAnimation;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+
+.logoColor {
+  color: #b43feb !important;
+}
+
+.logoColor:hover {
+  color: white !important;
+  transition: all 0.5s;
+}
+
+@keyframes myAnimation {
+  0% {
+    rotate: -6deg;
+  }
+
+  100% {
+    rotate: 6deg;
+  }
+}
+.aboutImg {
+  animation-name: myAnimation;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes myAnimation {
+  0% {
+    rotate: -3deg;
+  }
+
+  100% {
+    rotate: 3deg;
+  }
+}
+.logo {
+  animation-name: myAnimation;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
