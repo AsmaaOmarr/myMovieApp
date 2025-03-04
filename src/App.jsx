@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
 import MovieDetails from "./components/moviedetails";
+import MoviesContextProvider from "./contexts/moviesContextProvider";
 
 function App() {
   const routes = createBrowserRouter([
@@ -36,7 +37,9 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={routes}></RouterProvider>
+      <MoviesContextProvider>
+        <RouterProvider router={routes}></RouterProvider>
+      </MoviesContextProvider>
     </>
   );
 }
