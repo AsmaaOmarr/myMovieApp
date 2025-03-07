@@ -8,7 +8,7 @@ const Favorites = () => {
 
   return (
     <>
-      <div className="container py-0 text-light">
+      <div className="container-fluid py-0 text-light">
         <h1 className="text-center mb-4 fw-bold text-warning">
           My Favorites Movies 🎬
         </h1>
