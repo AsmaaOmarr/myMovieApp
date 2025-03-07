@@ -4,7 +4,7 @@
       "id": "950396",
       "title": "The Gorge",
       "poster_path": "/7iMBZzVZtG0oBug4TfqDb9ZxAOa.jpg",
-      "favorite": true
+      "favorite": false
     },
     {
       "id": "1126166",
@@ -16,7 +16,7 @@
       "id": "1064213",
       "title": "Anora",
       "poster_path": "/qh8m8Udz0sCa5gy9VaqfHPh0yPM.jpg",
-      "favorite": true
+      "favorite": false
     },
     {
       "id": "762509",
@@ -46,18 +46,12 @@
       "id": "823219",
       "title": "Flow",
       "poster_path": "/imKSymKBK7o73sajciEmndJoVkR.jpg",
-      "favorite": false
+      "favorite": true
     },
     {
       "id": "927342",
       "title": "Amaran",
       "poster_path": "/nv5DrlFpIYIPYhwvP2wg8VjdPwl.jpg",
-      "favorite": false
-    },
-    {
-      "id": "426889",
-      "title": "Le Clitoris",
-      "poster_path": "/p5i1yyQW6OpLfB59w7ZkX5lvBqD.jpg",
       "favorite": false
     },
     {

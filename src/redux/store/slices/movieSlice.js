@@ -44,6 +44,11 @@ export const toggleFavorite = createAsyncThunk(
   }
 );
 
+export const deleteMovie = createAsyncThunk("deleteMovie", async (movieId) => {
+  await axios.delete(`http://localhost:5000/movies/${movieId}`);
+  return movieId; // Return the deleted movie ID
+});
+
 const movieSlice = createSlice({
   name: "movies",
   initialState: { movies: [], loading: false, failed: false, favoriteCount: 0 },
@@ -67,6 +72,11 @@ const movieSlice = createSlice({
         state.movies = action.payload;
       });
 
+    builder.addCase(deleteMovie.fulfilled, (state, action) => {
+      state.movies = state.movies.filter(
+        (movie) => movie.id !== action.payload
+      );
+    });
     builder.addCase(toggleFavorite.fulfilled, (state, action) => {
       state.movies = state.movies.map((movie) =>
         movie.id === action.payload.id ? action.payload : movie
