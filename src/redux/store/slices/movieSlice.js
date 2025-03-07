@@ -76,6 +76,9 @@ const movieSlice = createSlice({
       state.movies = state.movies.filter(
         (movie) => movie.id !== action.payload
       );
+      state.favoriteCount = state.movies.filter(
+        (m) => m.favorite == true
+      ).length;
     });
     builder.addCase(toggleFavorite.fulfilled, (state, action) => {
       state.movies = state.movies.map((movie) =>

@@ -10,7 +10,7 @@ const Favorites = () => {
     <>
       <div className="container-fluid py-0 text-light">
         <h1 className="text-center mb-4 fw-bold text-warning">
-          My Favorites Movies 🎬
+          My Favorite Movies 🎬
         </h1>
         {favoriteMovies.length === 0 ? (
           <p className="text-center mt-3">No favorite movies added yet.</p>
