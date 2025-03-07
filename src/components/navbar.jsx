@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "../styles/movie.module.css";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const { favoriteCount } = useSelector((state) => state.getMovies);
   return (
     <>
       <nav
@@ -39,6 +41,15 @@ const Navbar = () => {
                   className={`nav-link active text-light me-2 ${styles.navItem}`}
                 >
                   Home
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to="/favorites"
+                  className={`nav-link active text-light me-2 ${styles.navItem}`}
+                >
+                  Favorites {favoriteCount}{" "}
+                  <i className="bi bi-heart-fill "></i>
                 </Link>
               </li>
               <li className="nav-item">

@@ -3,24 +3,36 @@ import Movie from "./movie";
 import { v4 as uuid } from "uuid";
 import Loading from "./loading";
 import { moviesContext } from "../contexts/moviesContextProvider";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllMovies,
+  searchMovies,
+  toggleFavorite,
+} from "../redux/store/slices/movieSlice";
 
 const Movies = () => {
-  const { movies, searchedMovies, searchMovie } = useContext(moviesContext);
+  // const { movies, searchedMovies, searchMovie } = useContext(moviesContext);
 
-  if (movies.length == 0) {
-    return (
-      <>
-        <Loading></Loading>
-      </>
-    );
-  }
+  const dispatch = useDispatch();
+  const { movies, loading } = useSelector((state) => state.getMovies);
 
-  // if (searchedMovies.length == 0) {
+  useEffect(() => {
+    dispatch(getAllMovies());
+  }, [dispatch]);
+
+  const searchMovie = (query) => {
+    dispatch(searchMovies(query));
+  };
+
+  const handleFavoriteClick = (id) => {
+    dispatch(toggleFavorite(id));
+  };
+
+  // if (loading) {
+  //   console.log(loading);
   //   return (
   //     <>
-  //       <div className="d-flex justify-content-center">
-  //         <img src="src/assets/undraw_file-search_cbur.svg" alt="" />
-  //       </div>
+  //       <Loading></Loading>
   //     </>
   //   );
   // }
@@ -34,11 +46,19 @@ const Movies = () => {
         aria-label="Search"
         onChange={(e) => searchMovie(e.target.value)}
       />
-      <div className="mx-5 my-3 d-flex flex-wrap justify-content-evenly">
-        {searchedMovies.map((movie) => (
-          <Movie key={uuid()} {...movie} />
-        ))}
-      </div>
+      {/* ifl loading show loading indicator  */}
+      {loading && <Loading />}
+      {!loading && (
+        <div className="mx-5 my-3 d-flex flex-wrap justify-content-evenly">
+          {movies.map((movie) => (
+            <Movie
+              key={uuid()}
+              {...movie}
+              handleFavoriteClick={handleFavoriteClick}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 };

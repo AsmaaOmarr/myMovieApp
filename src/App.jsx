@@ -6,9 +6,12 @@ import NotFound from "./pages/not-found";
 import Layout from "./pages/layout";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-
+import "bootstrap-icons/font/bootstrap-icons.css";
 import MovieDetails from "./components/moviedetails";
 import MoviesContextProvider from "./contexts/moviesContextProvider";
+import { Provider } from "react-redux";
+import store from "./redux/store/store";
+import Favorites from "./pages/favorites";
 
 function App() {
   const routes = createBrowserRouter([
@@ -28,6 +31,7 @@ function App() {
           path: "/movieDetails/:id",
           element: <MovieDetails />,
         },
+        { path: "/favorites", element: <Favorites /> },
         { path: "/about", element: <About /> },
         { path: "/contactUs", element: <ContactUs /> },
         { path: "*", element: <NotFound /> },
@@ -37,9 +41,14 @@ function App() {
 
   return (
     <>
-      <MoviesContextProvider>
+      {/* context */}
+      {/* <MoviesContextProvider>
         <RouterProvider router={routes}></RouterProvider>
-      </MoviesContextProvider>
+      </MoviesContextProvider> */}
+
+      <Provider store={store}>
+        <RouterProvider router={routes}></RouterProvider>
+      </Provider>
     </>
   );
 }

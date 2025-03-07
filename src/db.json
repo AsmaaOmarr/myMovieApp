@@ -1,0 +1,124 @@
+{
+  "movies": [
+    {
+      "id": "950396",
+      "title": "The Gorge",
+      "poster_path": "/7iMBZzVZtG0oBug4TfqDb9ZxAOa.jpg",
+      "favorite": true
+    },
+    {
+      "id": "1126166",
+      "title": "Flight Risk",
+      "poster_path": "/q0bCG4NX32iIEsRFZqRtuvzNCyZ.jpg",
+      "favorite": true
+    },
+    {
+      "id": "1064213",
+      "title": "Anora",
+      "poster_path": "/qh8m8Udz0sCa5gy9VaqfHPh0yPM.jpg",
+      "favorite": true
+    },
+    {
+      "id": "762509",
+      "title": "Mufasa: The Lion King",
+      "poster_path": "/lurEK87kukWNaHd0zYnsi3yzJrs.jpg",
+      "favorite": true
+    },
+    {
+      "id": "1241982",
+      "title": "Moana 2",
+      "poster_path": "/aLVkiINlIeCkcZIzb7XHzPYgO6L.jpg",
+      "favorite": false
+    },
+    {
+      "id": "939243",
+      "title": "Sonic the Hedgehog 3",
+      "poster_path": "/d8Ryb8AunYAuycVKDp5HpdWPKgC.jpg",
+      "favorite": false
+    },
+    {
+      "id": "822119",
+      "title": "Captain America: Brave New World",
+      "poster_path": "/pzIddUEMWhWzfvLI3TwxUG2wGoi.jpg",
+      "favorite": false
+    },
+    {
+      "id": "823219",
+      "title": "Flow",
+      "poster_path": "/imKSymKBK7o73sajciEmndJoVkR.jpg",
+      "favorite": false
+    },
+    {
+      "id": "927342",
+      "title": "Amaran",
+      "poster_path": "/nv5DrlFpIYIPYhwvP2wg8VjdPwl.jpg",
+      "favorite": false
+    },
+    {
+      "id": "426889",
+      "title": "Le Clitoris",
+      "poster_path": "/p5i1yyQW6OpLfB59w7ZkX5lvBqD.jpg",
+      "favorite": false
+    },
+    {
+      "id": "696506",
+      "title": "Mickey 17",
+      "poster_path": "/lrCcovGRcuv8Z1v3ae1ZH5Ird05.jpg",
+      "favorite": false
+    },
+    {
+      "id": "926670",
+      "title": "Henry Danger: The Movie",
+      "poster_path": "/dFWj2rOGsqSIX1PHFghbCBgpMnk.jpg",
+      "favorite": false
+    },
+    {
+      "id": "1084199",
+      "title": "Companion",
+      "poster_path": "/oCoTgC3UyWGfyQ9thE10ulWR7bn.jpg",
+      "favorite": false
+    },
+    {
+      "id": "1160956",
+      "title": "Panda Plan",
+      "poster_path": "/xVS9XiO9upp2SnWx6KpBYb79hLR.jpg",
+      "favorite": false
+    },
+    {
+      "id": "912649",
+      "title": "Venom: The Last Dance",
+      "poster_path": "/vGXptEdgZIhPg3cGlc7e8sNPC2e.jpg",
+      "favorite": false
+    },
+    {
+      "id": "539972",
+      "title": "Kraven the Hunter",
+      "poster_path": "/1GvBhRxY6MELDfxFrete6BNhBB5.jpg",
+      "favorite": false
+    },
+    {
+      "id": "558449",
+      "title": "Gladiator II",
+      "poster_path": "/2cxhvwyEwRlysAmRH4iodkvo0z5.jpg",
+      "favorite": false
+    },
+    {
+      "id": "1405338",
+      "title": "Demon City",
+      "poster_path": "/fQ9hzto0cUuxjfzqNAiAnNJo8O7.jpg",
+      "favorite": false
+    },
+    {
+      "id": "933260",
+      "title": "The Substance",
+      "poster_path": "/cGm2qnmXx9tFabmzEIkJZjCJdQd.jpg",
+      "favorite": false
+    },
+    {
+      "id": "1188104",
+      "title": "The X-Treme Riders",
+      "poster_path": "/r6vVnsWyESNpiamrfBvnxXYcWlZ.jpg",
+      "favorite": false
+    }
+  ]
+}

@@ -24,7 +24,7 @@ const About = () => {
               platform. We aim to be the ultimate destination for film
               enthusiasts, offering the latest releases, in-depth reviews,
               high-quality trailers, and AI-driven recommendations. Whether
-              you're searching for classic masterpieces or upcoming
+              you&apos;re searching for classic masterpieces or upcoming
               blockbusters, our goal is to create a vibrant community where
               users can explore, discuss, and celebrate the magic of
               movies—anytime, anywhere.
