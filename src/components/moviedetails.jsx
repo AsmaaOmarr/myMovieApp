@@ -1,7 +1,18 @@
 import React, { useState, useEffect, memo } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Loading from "./loading";
+import {
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  Box,
+  Chip,
+  Stack,
+  CircularProgress,
+  Button,
+} from "@mui/material";
+import { blue, green, grey, yellow } from "@mui/material/colors";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -9,128 +20,208 @@ const MovieDetails = () => {
   const apiKey = "9813ce01a72ca1bd2ae25f091898b1c7";
   const imgPath = "https://image.tmdb.org/t/p/w500/";
 
-  //didmount
+  // Fetch movie details
   useEffect(() => {
     axios
       .get(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`)
-      .then((res) => {
-        console.log(res.data);
-        setMovie(res.data);
-      })
+      .then((res) => setMovie(res.data))
       .catch((err) => console.error("Error fetching movie details:", err));
   }, [id]);
 
+  // Show loading indicator
   if (!movie) {
     return (
-      <>
-        <Loading></Loading>
-      </>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
+        <CircularProgress color="secondary" />
+      </Box>
     );
   }
 
   return (
-    <div
-      className="container mt-5"
-      style={{
-        backgroundImage: `url(${imgPath}/${movie.backdrop_path})`,
+    <Box
+      sx={{
+        backgroundImage: `url(${imgPath}${movie.backdrop_path})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        borderRadius: "15px",
-        padding: "20px",
+        borderRadius: 2,
         color: "white",
         backdropFilter: "blur(8px)",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        px: { xs: 2, sm: 5, md: 10 }, // Adjusts padding for different screens
+        py: 5,
       }}
     >
-      <div
-        className="card bg-dark text-white shadow-lg border-0 mx-auto"
-        style={{ maxWidth: "900px", borderRadius: "15px" }}
+      <Card
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          alignItems: { xs: "center", md: "flex-start" },
+          width: "100%",
+          maxWidth: 1200,
+          mx: "auto",
+          borderRadius: 2,
+          boxShadow: 5,
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          color: "white",
+          p: 2,
+          gap: 2,
+        }}
       >
-        <div className="row g-0">
-          {/* Movie Poster */}
-          <div className="col-md-4">
-            <img
-              src={imgPath + movie.poster_path}
-              className="img-fluid"
-              style={{ borderRadius: "15px 0 0 0" }}
-            />
-          </div>
+        {/* Movie Poster */}
+        <CardMedia
+          component="img"
+          sx={{
+            width: { xs: "100%", sm: "80%", md: 400 },
+            height: "auto",
+            maxHeight: { xs: 400, md: "100%" },
+            borderRadius: 2,
+            objectFit: "cover",
+          }}
+          image={imgPath + movie.poster_path}
+          alt={movie.title}
+        />
 
-          {/* Movie Details */}
-          <div className="col-md-8">
-            <div className="card-body p-4">
-              {/* name and overview */}
-              <h2 className="card-title text-warning">{movie.title}</h2>
-              <p className="card-text">{movie.overview}</p>
+        {/* Movie Details */}
+        <CardContent sx={{ flex: 1, p: { xs: 2, md: 3 }, width: "100%" }}>
+          <Typography
+            variant="h4"
+            sx={{
+              color: yellow[800],
+              fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+              textAlign: { xs: "center", md: "left" },
+            }}
+            mb={2}
+          >
+            {movie.title}
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              fontSize: { xs: "0.9rem", sm: "1rem", md: "1.2rem" },
+              textAlign: { xs: "center", md: "left" },
+            }}
+            mb={2}
+          >
+            {movie.overview}
+          </Typography>
 
-              {/* Genres */}
-              <div className="mb-3">
-                {/* should add key when use map */}
-                {movie.genres.map((genre) => (
-                  <div key={genre.id} className="badge bg-danger me-2">
-                    {genre.name}
-                  </div>
-                ))}
-              </div>
+          {/* Genres */}
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+              mb: 2,
+              flexWrap: "wrap",
+              justifyContent: { xs: "center", md: "flex-start" },
+            }}
+          >
+            {movie.genres.map((genre) => (
+              <Chip key={genre.id} label={genre.name} color="error" />
+            ))}
+          </Stack>
 
-              {/* date and rating and time */}
-              <p className="card-text">
-                <span className="fw-bold text-info me-2">Release Date :</span>
-                {movie.release_date} 📅
-              </p>
-              <p className="card-text">
-                <span className="fw-bold text-success me-2">Rating :</span>
-                {movie.vote_average} / 10 ⭐ ({movie.vote_count} votes)
-              </p>
-              <p className="card-text">
-                <span className="fw-bold text-light me-2">Duration :</span>
-                {movie.runtime} mins ⏳
-              </p>
+          {/* Movie Info */}
+          <Stack spacing={1} textAlign={{ xs: "center", md: "left" }}>
+            <Typography
+              variant="body2"
+              sx={{ color: blue[500], fontSize: { xs: "0.9rem", md: "1rem" } }}
+            >
+              <strong>Release Date:</strong> {movie.release_date} 📅
+            </Typography>
 
-              {/* Spoken Languages */}
-              <p className="card-text">
-                <span className="fw-bold text-secondary me-2">Languages :</span>
-                {movie.spoken_languages
-                  .map((lang) => lang.english_name)
-                  .join(", ")}{" "}
-                🌐
-              </p>
+            <Typography
+              variant="body2"
+              sx={{ color: green[500], fontSize: { xs: "0.9rem", md: "1rem" } }}
+            >
+              <strong>Rating:</strong> {movie.vote_average} / 10 ⭐ (
+              {movie.vote_count} votes)
+            </Typography>
 
-              {/* Production */}
-              <div className="mb-3">
-                <span className="fw-bold text-light mb-1">Production : </span>
-                <div className="d-flex flex-wrap mt-2">
-                  {movie.production_companies.map((company) => (
-                    <div key={company.id} className="me-3 text-center">
-                      {company.logo_path && (
-                        <img
-                          src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
-                          alt={company.name}
-                          style={{ maxHeight: "40px", marginBottom: "5px" }}
-                        />
-                      )}
-                      <p className="small">{company.name}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <Typography
+              variant="body2"
+              sx={{ fontSize: { xs: "0.9rem", md: "1rem" } }}
+            >
+              <strong>Duration:</strong> {movie.runtime} mins ⏳
+            </Typography>
 
-              {/* Homepage Link */}
-              {movie.homepage && (
-                <a
-                  href={movie.homepage}
-                  target="_blank"
-                  rel=""
-                  className="btn btn-outline-warning w-100"
+            <Typography
+              variant="body2"
+              sx={{ color: grey[500], fontSize: { xs: "0.9rem", md: "1rem" } }}
+            >
+              <strong>Languages:</strong>{" "}
+              {movie.spoken_languages
+                .map((lang) => lang.english_name)
+                .join(", ")}{" "}
+              🌐
+            </Typography>
+          </Stack>
+
+          {/* Production Companies */}
+          <Box mt={2} textAlign={{ xs: "center", md: "left" }}>
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: "bold",
+                fontSize: { xs: "0.9rem", md: "1rem" },
+              }}
+            >
+              Production:
+            </Typography>
+            <Stack
+              direction="row"
+              spacing={2}
+              mt={1}
+              flexWrap="wrap"
+              justifyContent={{ xs: "center", md: "flex-start" }}
+            >
+              {movie.production_companies.map((company) => (
+                <Box
+                  key={company.id}
+                  textAlign="center"
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
                 >
-                  Visit Official Site
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+                  {company.logo_path && (
+                    <img
+                      src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
+                      alt={company.name}
+                      style={{ maxHeight: "40px", marginBottom: "5px" }}
+                    />
+                  )}
+                  <Typography variant="caption">{company.name}</Typography>
+                </Box>
+              ))}
+            </Stack>
+          </Box>
+
+          {/* Homepage Button */}
+          {movie.homepage && (
+            <Button
+              variant="outlined"
+              color="warning"
+              fullWidth
+              href={movie.homepage}
+              target="_blank"
+              sx={{ mt: 4 }}
+            >
+              Visit Official Site
+            </Button>
+          )}
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
 

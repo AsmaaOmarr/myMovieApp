@@ -1,27 +1,47 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Movie from "../components/movie";
+import { Box, Typography } from "@mui/material";
+import { yellow } from "@mui/material/colors";
 
 const Favorites = () => {
-  const movies = useSelector((state) => state.getMovies.movies);
-  const favoriteMovies = movies.filter((movie) => movie.favorite); // Get only favorite movies
+  const { favoriteMovies } = useSelector((state) => state.getMovies);
 
   return (
     <>
-      <div className="container-fluid py-0 text-light">
-        <h1 className="text-center mb-4 fw-bold text-warning">
+      <Box sx={{ textAlign: "center", p: 2 }}>
+        <Typography
+          variant="h4"
+          mb={5}
+          sx={{ color: yellow[700], fontWeight: "bold" }}
+        >
           My Favorite Movies 🎬
-        </h1>
+        </Typography>
+
         {favoriteMovies.length === 0 ? (
-          <p className="text-center mt-3">No favorite movies added yet.</p>
+          <Typography
+            variant="h5"
+            color="secondary"
+            textAlign={"center"}
+            py={20}
+          >
+            No favorite movies added yet.
+          </Typography>
         ) : (
-          <div className="d-flex flex-wrap justify-content-evenly mx-5 my-3">
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: 3,
+            }}
+          >
             {favoriteMovies.map((movie) => (
               <Movie key={movie.id} {...movie} />
             ))}
-          </div>
+          </Box>
         )}
-      </div>
+      </Box>
     </>
   );
 };

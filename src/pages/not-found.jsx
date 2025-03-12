@@ -1,17 +1,33 @@
 import React from "react";
+import { Box, Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (
-    <div className="d-flex flex-column align-items-center justify-content-center vh-100 text-center">
-      <h1 className="text-danger fw-bold">404 - Page Not Found</h1>
-      <p className="text-secondary">
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      height="100vh"
+      textAlign="center"
+    >
+      <Typography variant="h2" color="error" fontWeight="bold" gutterBottom>
+        404 - Page Not Found
+      </Typography>
+      <Typography variant="body1" color="white">
         Oops! The page you’re looking for doesn’t exist.
-      </p>
-      <Link to="/" className="btn btn-outline-warning mt-3">
+      </Typography>
+      <Button
+        variant="outlined"
+        color="warning"
+        sx={{ mt: 3 }}
+        component={Link}
+        to="/"
+      >
         Go to Home
-      </Link>
-    </div>
+      </Button>
+    </Box>
   );
 };
 

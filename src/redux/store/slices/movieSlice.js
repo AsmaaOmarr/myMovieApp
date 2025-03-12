@@ -2,66 +2,113 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { constants } from "../../../constants";
 
-export const getAllMovies = createAsyncThunk("getAllMovies", async () => {
-  //   const response = await axios.get(
-  //     `https://api.themoviedb.org/3/discover/movie?api_key=${constants.apiKey}`
-  //   );
-  //   return response.data.results;
+const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 
-  const response = await axios.get(`http://localhost:5000/movies`);
-  return response.data;
+export const getAllMovies = createAsyncThunk("getAllMovies", async () => {
+  try {
+    const response = await axios.get(
+      `${TMDB_BASE_URL}/discover/movie?api_key=${constants.apiKey}`
+    );
+    return response.data.results;
+  } catch (error) {
+    console.error("Error fetching movies:", error);
+    throw error;
+  }
 });
 
 export const searchMovies = createAsyncThunk("searchMovies", async (query) => {
-  if (!query) {
-    const response = await axios.get(`http://localhost:5000/movies`);
-    return response.data;
+  try {
+    const url = query
+      ? `${TMDB_BASE_URL}/search/movie?api_key=${constants.apiKey}&query=${query}`
+      : `${TMDB_BASE_URL}/discover/movie?api_key=${constants.apiKey}`;
+
+    const response = await axios.get(url);
+    return response.data.results;
+  } catch (error) {
+    console.error("Error searching movies:", error);
+    throw error;
   }
-  const response = await axios.get(
-    `https://api.themoviedb.org/3/search/movie?api_key=${constants.apiKey}&query=${query}`
-  );
-  return response.data.results;
-  //   const response = await axios.get(
-  //     `http://localhost:5000/movies?title_like=${query}`
-  //   );
-  //   return response.data;
 });
 
-export const toggleFavorite = createAsyncThunk(
-  "movies/toggleFavorite",
-  async (movieId, { getState }) => {
-    const state = getState();
-    const movie = state.getMovies.movies.find((m) => m.id === movieId);
-
-    if (movie) {
-      const updatedMovie = { ...movie, favorite: !movie.favorite };
-      await axios.patch(
-        `http://localhost:5000/movies/${movieId}`,
-        updatedMovie
+export const getFavoriteMovies = createAsyncThunk(
+  "getFavoriteMovies",
+  async () => {
+    try {
+      const response = await axios.get(
+        `${TMDB_BASE_URL}/account/21849475/favorite/movies?api_key=${constants.apiKey}`,
+        { headers: constants.TMDB_HEADERS }
       );
-      return updatedMovie; // Return the updated movie to Redux
+      return response.data.results;
+    } catch (error) {
+      console.error("Error fetching favorite movies:", error);
+      throw error;
     }
   }
 );
 
-export const deleteMovie = createAsyncThunk("deleteMovie", async (movieId) => {
-  await axios.delete(`http://localhost:5000/movies/${movieId}`);
-  return movieId; // Return the deleted movie ID
-});
+export const toggleFavorite = createAsyncThunk(
+  "movies/toggleFavorite",
+  async (movieId, { dispatch, getState, rejectWithValue }) => {
+    try {
+      const state = getState();
+      console.log("Current favorites:", state.getMovies.favoriteMovies);
+
+      const isFavorite = state.getMovies.favoriteMovies.some(
+        (m) => m.id === movieId
+      );
+      console.log("Is favorite:", isFavorite);
+      const response = await axios.post(
+        `${TMDB_BASE_URL}/account/21849475/favorite`,
+        {
+          media_type: "movie",
+          media_id: movieId,
+          favorite: !isFavorite,
+        },
+        { headers: constants.TMDB_HEADERS }
+      );
+
+      console.log("TMDB API Response:", response.status, response.data);
+
+      if (response.status === 201 || response.status === 200) {
+        await dispatch(getFavoriteMovies());
+        return movieId;
+      } else {
+        return rejectWithValue("Failed to update favorite status");
+      }
+    } catch (error) {
+      console.error(
+        "Error toggling favorite:",
+        error.response?.data || error.message
+      );
+      return rejectWithValue(error.response?.data || "Something went wrong");
+    }
+  }
+);
 
 const movieSlice = createSlice({
   name: "movies",
-  initialState: { movies: [], loading: false, failed: false, favoriteCount: 0 },
+  initialState: {
+    movies: [],
+    favoriteMovies: [],
+    loading: false,
+    failed: false,
+    countFavorites: 0,
+  },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getAllMovies.pending, (state, action) => {
-      state.loading = true;
-    });
-    builder.addCase(getAllMovies.fulfilled, (state, action) => {
-      state.loading = false;
-      state.movies = action.payload;
-      state.favoriteCount = action.payload.filter((m) => m.favorite).length;
-    });
+    builder
+      .addCase(getAllMovies.pending, (state) => {
+        state.loading = true;
+        // getFavoriteMovies();
+      })
+      .addCase(getAllMovies.fulfilled, (state, action) => {
+        state.loading = false;
+        state.movies = action.payload;
+      })
+      .addCase(getAllMovies.rejected, (state) => {
+        state.loading = false;
+        state.failed = true;
+      });
 
     builder
       .addCase(searchMovies.pending, (state) => {
@@ -70,23 +117,39 @@ const movieSlice = createSlice({
       .addCase(searchMovies.fulfilled, (state, action) => {
         state.loading = false;
         state.movies = action.payload;
+      })
+      .addCase(searchMovies.rejected, (state) => {
+        state.loading = false;
+        state.failed = true;
       });
 
-    builder.addCase(deleteMovie.fulfilled, (state, action) => {
-      state.movies = state.movies.filter(
-        (movie) => movie.id !== action.payload
-      );
-      state.favoriteCount = state.movies.filter(
-        (m) => m.favorite == true
-      ).length;
+    builder.addCase(getFavoriteMovies.fulfilled, (state, action) => {
+      console.log("Fetched favorite movies:", action.payload);
+      state.favoriteMovies = action.payload;
+      state.countFavorites = action.payload.length;
     });
+
     builder.addCase(toggleFavorite.fulfilled, (state, action) => {
-      state.movies = state.movies.map((movie) =>
-        movie.id === action.payload.id ? action.payload : movie
-      );
-      state.favoriteCount = state.movies.filter(
-        (m) => m.favorite == true
-      ).length;
+      console.log("Toggled favorite movie ID:", action.payload);
+
+      // const isFavorite = state.favoriteMovies.some(
+      //   (m) => m.id === action.payload
+      // );
+
+      // if (isFavorite) {
+      //   state.favoriteMovies = state.favoriteMovies.filter(
+      //     (m) => m.id !== action.payload
+      //   );
+      // } else {
+      //   const toggledMovie = state.movies.find((m) => m.id === action.payload);
+      //   if (toggledMovie) {
+      //     state.favoriteMovies.push({ ...toggledMovie });
+      //   }
+      // }
+    });
+
+    builder.addCase(toggleFavorite.rejected, (state, action) => {
+      console.error("Failed to toggle favorite:", action.payload);
     });
   },
 });

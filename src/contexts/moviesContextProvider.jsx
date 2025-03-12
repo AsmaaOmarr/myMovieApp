@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 export const moviesContext = createContext();
+// eslint-disable-next-line react/prop-types
 const MoviesContextProvider = ({ children }) => {
   const [movies, setMovies] = useState([]);
   const [searchedMovies, setSearchedMovies] = useState([]);
